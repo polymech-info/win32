@@ -1,5 +1,5 @@
 #include "pick_hud.hpp"
-#include "win/display_affinity.hpp"
+#include "capture/display_affinity.hpp"
 #include "logging/logger.h"
 
 #if defined(_WIN32)

@@ -2,13 +2,13 @@
 
 #if defined(_WIN32)
 
-#include "win/display_affinity.hpp"
-#include "win/highlight_overlay.hpp"
+#include "capture/display_affinity.hpp"
+#include "highlight_overlay.hpp"
 #include "pick_hud.hpp"
 #include "pick_loupe.hpp"
 #include "logging/logger.h"
 #include "process/process_helpers.hpp"
-#include "win/window_bounds.hpp"
+#include "capture/window_bounds.hpp"
 
 #include <objbase.h>
 #ifndef interface
@@ -33,7 +33,7 @@
 #include <thread>
 
 #if defined(FEATURE_ASSISTANT) && FEATURE_ASSISTANT
-#include "win/chrome_inspect/picker_enrich.hpp"
+#include "chrome/picker_enrich.hpp"
 #endif
 
 #pragma comment(lib, "user32.lib")
@@ -416,7 +416,7 @@ struct PickContext {
     POINT             stack_pt{};       ///< point used to build stack_
     RECT              custom_rect{};
     RECT              committed_rect{}; ///< resolve_target_rect at click — WYSIWYG with highlight
-    HighlightOverlay  overlay;          ///< reusable rect painter (src/win/highlight_overlay)
+    HighlightOverlay  overlay;          ///< reusable rect painter (highlight_overlay)
     HighlightOverlay  measure_dim;      ///< semi-transparent scrim after anchor A
     MeasureOverlay    measure_stage;    ///< span rect + H/V guides + target rects
     PickHud           hud;              ///< stack depth / name chip

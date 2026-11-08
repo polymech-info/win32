@@ -14,8 +14,10 @@ UTF-8 conversion goes through `media::process::narrow_utf8` in `packages/commons
 
 `clipboard/` and `shell/` live here and are still compiled by the host. Both headers include `win/context/context_store.hpp` (`ContextItem`, `ClipboardHistoryItem`). The same two `.cpp` files are on the UI source list and the CLI source list. With a shared `pm-media` they compile into that library; otherwise they compile into the executable that asked for them.
 
-`inspect/app_use`, `inspect/app_batch`, `inspect/inspect`, `inspect/pick_hud`, and `inspect/pick_loupe` live here and are compiled by `tanit.exe` and `tanit-cli.exe`. xblox blocks call the same picker and app-use entry points. `app_use.cpp` calls `ContextStore::PreferredExternalHwnd`. `inspect.cpp` draws `src/win/highlight_overlay` and, when `FEATURE_ASSISTANT` is on, the Chrome picker. Those two includes keep the `.cpp` files on the host source lists. The xblox-only image compiles the picker, HUD, and loupe without the assistant bar.
+`inspect/app_use`, `inspect/app_batch`, `inspect/inspect`, `inspect/highlight_overlay`, `inspect/pick_hud`, and `inspect/pick_loupe` are compiled by `tanit.exe` and `tanit-cli.exe`. The xblox-only image compiles the picker, highlight, HUD, and loupe. `app_use.cpp` calls `ContextStore::PreferredExternalHwnd`. `chrome/` is the native-messaging host and the picker DOM bridge (`tanit-chrome-host`, the assistant feature, and the xblox picker). `picker_enrich.cpp` still includes `win/web/webview_dom_inspect.hpp`.
 
-These stay in `src/win`: `context_store`, the assistant bar, `chrome_inspect`, `detect_overlay`, and `highlight_overlay`. `pm-media` calls app-use through the host function table and calls `media::win::inspect` from the xblox blocks linked into that library. `tanit-security` does not link this library.
+`capture/display_affinity.hpp` and `capture/window_bounds.hpp` forward to `pm/video/…`. The `.cpp` files stay in `packages/video.cpp` and are linked once through `pm-video-lib`.
+
+These stay in `src/win`: `context_store`, the assistant bar, WebView2, and `detect_overlay`. `tanit-security` does not link this library.
 
 `cli/` and `tests/` are the commons command harness (`string`, `path`, `uri`, `fs`, `process`, `task`, `ipc`). They are separate from `pm-win32-lib`.
